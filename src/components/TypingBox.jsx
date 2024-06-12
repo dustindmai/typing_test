@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef, useMemo, createRef} from "react";
+import React, {useEffect, useState, useRef, useMemo, createRef, innerText} from "react";
 //import UpperMenu from './UpperMenu'
 import { useTestMode } from "../context/TestModeContext";
 const randomWords= require('random-words');
@@ -22,6 +22,87 @@ const TypingBox = () => {
     return Array(wordsArray.length).fill(0).map(i=>createRef(null));
   }, [wordsArray]);
 
+ 
+
+  const handleUserInput = (e) =>{
+    
+    const allCurrChars = wordsSpanRef[currWordIndex].current.childNodes;
+
+    if(e.keyCode === 32){
+      
+      if(allCurrChars.length <=currCharIndex){
+        allCurrChars[currCharIndex-1].classList.remove('current-right');
+      }
+      else{
+        allCurrChars[currCharIndex].classList.remove('current-left');
+      }
+
+      wordsSpanRef[currWordIndex+1].current.childNodes[0].className='current-left';
+
+      setCurrWordIndex(currWordIndex + 1);
+      setCurrCharIndex(0);
+
+      return;
+    }
+
+    if(e.keyCode === 8){
+
+      if(currCharIndex !== 0){
+
+        if(allCurrChars.length === currCharIndex){
+
+          if(allCurrChars[currCharIndex-1].className.includes('extra')){
+            allCurrChars[currCharIndex-1].remove();
+            allCurrChars[currCharIndex-2].className +=' current-right';
+          }
+          else{
+            allCurrChars[currCharIndex-1].className='current-left'
+          }
+          
+          setCurrCharIndex(currCharIndex - 1);
+          return;
+        }
+
+        allCurrChars[currCharIndex].className= '';
+        allCurrChars[currCharIndex - 1].className = 'current-left';
+        setCurrCharIndex(currCharIndex - 1);
+      }
+
+      return;
+    }
+
+    if(currCharIndex === allCurrChars.length){
+      let newSpan = document.createElement('span');
+      newSpan.innerText = e.key;
+      newSpan.className = 'incorrect extra current-right';
+      allCurrChars[currCharIndex -1].classList.remove('current-right');
+      wordsSpanRef[currWordIndex].current.append(newSpan);
+      setCurrCharIndex(currCharIndex+1);
+      return;
+    }
+
+
+    if(e.key == allCurrChars[currCharIndex].innerText){
+      allCurrChars[currCharIndex].className = 'correct';
+    }
+    else{
+      allCurrChars[currCharIndex].className = 'incorrect';
+    }
+
+    if(currCharIndex +  1 === allCurrChars.length){
+      allCurrChars[currCharIndex].className+=' current-right';
+      console.log(allCurrChars[currCharIndex].className);
+    }
+    else{
+      allCurrChars[currCharIndex+1].className= 'current-left';
+    }
+
+
+    
+    setCurrCharIndex(currCharIndex + 1);
+
+  }
+
   const focusInput = () =>{
     inputRef.current.focus();
   }
@@ -30,41 +111,6 @@ const TypingBox = () => {
     focusInput();
     wordsSpanRef[0].current.childNodes[0].className = 'current-left';
   }, []);
-
-  const handleUserInput = (e) =>{
-    const allCurrChars = wordsSpanRef[currWordIndex].current.childNodes;
-
-    if(e.keyCode === 32){
-      if(allCurrChars.length <=currCharIndex){
-        allCurrChars[currCharIndex-1].classList.remove('current-right');
-      }
-      else{
-        allCurrChars[currCharIndex-1].classList.remove('current-left');
-      }
-
-      setCurrWordIndex(currWordIndex+1);
-      setCurrCharIndex(0);
-      return;
-    }
-
-    if(e.key === allCurrChars[currCharIndex].innerText){
-      allCurrChars[currCharIndex].className='correct';
-    }
-    else{
-      allCurrChars[currCharIndex].className='incorrect';
-    }
-
-    if(currCharIndex+1 === allCurrChars.length){
-      allCurrChars[currCharIndex].className+='current-right';
-    }
-    else{
-      allCurrChars[currCharIndex+1].className='current-left';
-    }
-    console.log(allCurrChars[currCharIndex].className);
-    setCurrCharIndex(currCharIndex + 1);
-    
-  }
-
   /*
   const startTimer = () =>{
     const intervalId = setInterval(timer ,1000);
