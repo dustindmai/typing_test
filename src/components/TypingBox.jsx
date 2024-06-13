@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef, useMemo, createRef, innerText} from "react";
-//import UpperMenu from './UpperMenu'
+import UpperMenu from './UpperMenu'
 import { useTestMode } from "../context/TestModeContext";
 const randomWords= require('random-words');
 
@@ -10,6 +10,9 @@ const TypingBox = () => {
   //const {testTime} = useTestMode();
   //const[intervalId, setIntervalId] = useState(null);
   const  inputRef = useRef(null);
+  const [countDown, setCountDown] = useState(15);
+  const [testStart, setTestStart] =useState(false);
+  const [testEnd, setTestEnd] = useState(false);
   const [wordsArray, setWordsArray] = useState(()=>{
     return randomWords.generate(50);
   });
@@ -22,10 +25,28 @@ const TypingBox = () => {
     return Array(wordsArray.length).fill(0).map(i=>createRef(null));
   }, [wordsArray]);
 
- 
+  const startTimer = () =>{
+    const intervalId = setInterval(timer, 1000);
+
+    function timer(){
+      setCountDown(latestCountDown =>{
+        if(latestCountDown ===1){
+          setTestEnd(true);
+          clearInterval(intervalId);
+          return 0;
+        }
+
+        return latestCountDown -1;
+      });
+
+    }
+  }
 
   const handleUserInput = (e) =>{
-    
+    if(!testStart){
+      startTimer();
+      setTestStart(true);
+    }
     const allCurrChars = wordsSpanRef[currWordIndex].current.childNodes;
 
     if(e.keyCode === 32){
@@ -162,7 +183,8 @@ const TypingBox = () => {
 
   return (
     <div>
-      <div className= 'type-box' onClick ={focusInput}>
+      <UpperMenu countDown={countDown}/>
+      {testEnd ? (<h1>Test Over</h1>): (<div className= 'type-box' onClick ={focusInput}>
         <div className= 'words'>
           {
             wordsArray.map((word,index) =>(
@@ -174,7 +196,7 @@ const TypingBox = () => {
             ))
           }
         </div>
-      </div>
+      </div>)}
       <input
         type = 'text'
         className ='hidden-input'
