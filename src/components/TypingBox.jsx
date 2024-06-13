@@ -1,16 +1,17 @@
 import React, {useEffect, useState, useRef, useMemo, createRef, innerText} from "react";
 import UpperMenu from './UpperMenu'
 import { useTestMode } from "../context/TestModeContext";
+import { setTokenAutoRefreshEnabled } from "firebase/app-check";
 const randomWords= require('random-words');
 
 
 const TypingBox = () => {
 
 
-  //const {testTime} = useTestMode();
-  //const[intervalId, setIntervalId] = useState(null);
-  const  inputRef = useRef(null);
-  const [countDown, setCountDown] = useState(15);
+  const {testTime} = useTestMode();
+  const[intervalId, setIntervalId] = useState(null);
+  const inputRef = useRef(null);
+  const [countDown, setCountDown] = useState(testTime);
   const [testStart, setTestStart] =useState(false);
   const [testEnd, setTestEnd] = useState(false);
   const [wordsArray, setWordsArray] = useState(()=>{
@@ -25,22 +26,6 @@ const TypingBox = () => {
     return Array(wordsArray.length).fill(0).map(i=>createRef(null));
   }, [wordsArray]);
 
-  const startTimer = () =>{
-    const intervalId = setInterval(timer, 1000);
-
-    function timer(){
-      setCountDown(latestCountDown =>{
-        if(latestCountDown ===1){
-          setTestEnd(true);
-          clearInterval(intervalId);
-          return 0;
-        }
-
-        return latestCountDown -1;
-      });
-
-    }
-  }
 
   const handleUserInput = (e) =>{
     if(!testStart){
@@ -132,12 +117,12 @@ const TypingBox = () => {
     focusInput();
     wordsSpanRef[0].current.childNodes[0].className = 'current-left';
   }, []);
-  /*
+  
   const startTimer = () =>{
     const intervalId = setInterval(timer ,1000);
     setIntervalId(intervalId);
     function timer(){
-      setCountDown((latestCoutnerdown) => {
+      setCountDown((latestCountDown) => {
         if(latestCountDown === 1){
           setTokenAutoRefreshEnabled(true);
           clearInterval(intervalId);
@@ -148,8 +133,8 @@ const TypingBox = () => {
       });
     }
   }
-    */
-  /*
+    
+  
   const resetTest = () =>{
     clearInterval(intervalId);
     setCountDown(testTime);
@@ -161,25 +146,25 @@ const TypingBox = () => {
     resetWordSpanRefClassname();
     focusInput();
   }
-*/
 
-/*
+
+
   const resetWordSpanRefClassname = () =>{
-    wordsSpanref.map(i=>{
-      Aarray.from(i.current.childNodes).map(j=>{
-        j.classname='';
+    wordsSpanRef.map(i=>{
+      Array.from(i.current.childNodes).map(j=>{
+        j.className='';
       })
-    })
-    wordsSpanRef[0].current.childNodes[0].classNmae= 'current';
+    });
+    wordsSpanRef[0].current.childNodes[0].className= 'current';
   }
-*/
 
-/*
+
+
   useEffect(()=> {
     resetTest();
 
   },[testTime])
-*/
+
 
   return (
     <div>
