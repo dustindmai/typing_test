@@ -88,7 +88,7 @@ const TypingBox = () => {
     }
 
 
-    if(e.key == allCurrChars[currCharIndex].innerText){
+    if(e.key === allCurrChars[currCharIndex].innerText){
       allCurrChars[currCharIndex].className = 'correct';
     }
     else{
