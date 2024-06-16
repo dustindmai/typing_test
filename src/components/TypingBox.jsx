@@ -41,6 +41,9 @@ const TypingBox = () => {
       startTimer();
       setTestStart(true);
     }
+    if(testEnd){
+      return;
+    }
 
 
     const allCurrChars = wordsSpanRef[currWordIndex].current.childNodes;
@@ -133,7 +136,8 @@ const TypingBox = () => {
   }
 
   const calculateAcc = ()=>{
-    return Math.round((correctWords/currWordIndex) * 100);
+
+    return (currWordIndex !== 0) ? Math.round((correctWords/currWordIndex) * 100) : 0 ;
   }
 
   const focusInput = () =>{

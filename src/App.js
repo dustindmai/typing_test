@@ -3,6 +3,7 @@ import { GlobalStyles } from "./Styles/global";
 import Footer from "./components/Footer";
 import TypingBox from "./components/TypingBox"
 import { useTheme } from "./context/ThemeContext";
+import Header from "./components/Header";
 
 function App() {
   const {theme} = useTheme();
@@ -10,7 +11,7 @@ function App() {
     <ThemeProvider theme = {theme}>
       <div className="canvas">
         <GlobalStyles/>
-        <div>Header</div>
+        <Header/>
         <TypingBox/>
         <Footer/>
       </div>
