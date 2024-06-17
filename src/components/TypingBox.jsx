@@ -22,7 +22,7 @@ const TypingBox = () => {
   const [extraChars, setExtraChars] = useState(0);
   const[correctWords, setCorrectWords] = useState(0);
   const [wordsArray, setWordsArray] = useState(()=>{
-    return randomWords.generate(50);
+    return randomWords.generate(300);
   });
 
   const [graphData, setGraphData] = useState([]);
@@ -49,6 +49,12 @@ const TypingBox = () => {
     const allCurrChars = wordsSpanRef[currWordIndex].current.childNodes;
 
     if(e.keyCode === 32){
+      if( currWordIndex === wordsSpanRef.length - 1){
+        clearInterval(intervalId);
+        setCurrWordIndex(currWordIndex+1);
+        setTestEnd(true);
+        return;
+      }
 
       let correctCharsInWord = wordsSpanRef[currWordIndex].current.querySelectorAll('.correct');
       if(correctCharsInWord.length === allCurrChars.length){
@@ -61,7 +67,12 @@ const TypingBox = () => {
         allCurrChars[currCharIndex].classList.remove('current-left');
         setMissedChars(missedChars+ (allCurrChars.length - currCharIndex));
       }
-
+      if(
+        wordsSpanRef[currWordIndex + 1].current.offsetLeft <
+        wordsSpanRef[currWordIndex].current.offsetLeft
+      ){
+        wordsSpanRef[currWordIndex].current.scrollIntoView();
+      }
       wordsSpanRef[currWordIndex+1].current.childNodes[0].className='current-left';
 
       setCurrWordIndex(currWordIndex + 1);
@@ -183,7 +194,7 @@ const TypingBox = () => {
     setCurrCharIndex(0);
     setTestStart(false);
     setTestEnd(false);
-    setWordsArray(randomWords.generate(50));
+    setWordsArray(randomWords.generate(300));
     resetWordSpanRefClassname();
     focusInput();
   }
