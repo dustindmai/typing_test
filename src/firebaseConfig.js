@@ -1,22 +1,21 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import'firebase/firestore';
-
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import'firebase/compat/firestore';
 const firebaseConfig = {
 
-  apiKey: "AIzaSyA_X0N7F1j_K7hjiptbiThFiZe6JeC0gsE",
+  apiKey: process.env.REACT_APP_KEY,
 
-  authDomain: "typingtest-df372.firebaseapp.com",
+  authDomain: process.env.REACT_APP_DOMAIN,
 
-  projectId: "typingtest-df372",
+  projectId: process.env.REACT_APP_PROJECTID,
 
-  storageBucket: "typingtest-df372.appspot.com",
+  storageBucket: process.env.REACT_APP_BUCKET,
 
-  messagingSenderId: "524880497481",
+  messagingSenderId: process.env.REACT_APP_SENDERID,
 
-  appId: "1:524880497481:web:35b69b0224854e2b016898",
+  appId: process.env.REACT_APP_APPID,
 
-  measurementId: "G-DSKDYXNS0C"
+  measurementId: process.env.REACT_APP_MEASUREMENTID
 
 };
 
