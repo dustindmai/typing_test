@@ -2,6 +2,7 @@ import { Box, Button, TextField } from '@mui/material'
 import React, { useState } from 'react'
 import { useTheme } from '../context/ThemeContext';
 import { auth } from '../firebaseConfig';
+import { Bounce, toast } from 'react-toastify';
 
 const LoginForm = () => {
 
@@ -11,13 +12,43 @@ const LoginForm = () => {
 
   const handleSubmit = () =>{
     if(!email || !password){
-      alert('fill all deatils');
+      toast.warning('Fill all Details', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce
+        });
       return;
     }
     auth.signInWithEmailAndPassword(email,password).then((res)=>{
-      alert('logged in');
+      toast.success('Logged In', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce
+        });
     }).catch((err)=>{
-      alert('invalid credential');
+      toast.error('Invalid Credentials', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce
+        });
     })
   }
   return (

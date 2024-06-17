@@ -2,6 +2,7 @@ import { Box, Button, TextField } from '@mui/material'
 import React, { useState } from 'react'
 import { useTheme } from '../context/ThemeContext';
 import { auth } from '../firebaseConfig';
+import { Bounce, toast } from 'react-toastify';
 
 const SignupForm = () => {
 
@@ -12,18 +13,58 @@ const SignupForm = () => {
 
   const handleSubmit = ()=>{
     if(!email || !password || !confirmPass){
-      alert("fill all details");
+      toast.warning('Fill all Details', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce
+        });
       return;
     }
     if(password !== confirmPass){
-      alert('password mismatch');
+      toast.warning('Passwords Do Not Match', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce
+        });
       return;
     }
 
     auth.createUserWithEmailAndPassword(email, password).then((res)=>{
-      alert('user created');
+      toast.success('Account Created', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce
+        });
     }).catch((err)=>{
-      alert(err);
+      toast.error('Unable to Create Account', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce
+        });
     })
 
   }
