@@ -168,8 +168,8 @@ ${({theme})=>theme.background}}
 .user{
   width: 50%;
   display: flex;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  margin-top: auto;
+  margin-bottom: auto;
   font-size: 1.5rem;
   padding: 1rem;
   border-right: 2px solid;

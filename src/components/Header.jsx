@@ -9,7 +9,6 @@ const Header = () => {
         LOGO
       </div>
       <div className="user-icon">
-        {}
         <AccountCircle></AccountCircle>
       </div>
     </div>
