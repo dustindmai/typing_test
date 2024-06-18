@@ -3,8 +3,9 @@ import React, { useState } from 'react'
 import { useTheme } from '../context/ThemeContext';
 import { auth } from '../firebaseConfig';
 import { Bounce, toast } from 'react-toastify';
+import errorMapping from '../utils/errorMapping';
 
-const SignupForm = () => {
+const SignupForm = ({handleClose}) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -27,7 +28,7 @@ const SignupForm = () => {
       return;
     }
     if(password !== confirmPass){
-      toast.warning('Passwords Do Not Match', {
+      toast.warning("Passwords do not match", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -53,8 +54,9 @@ const SignupForm = () => {
         theme: "dark",
         transition: Bounce
         });
+        handleClose();
     }).catch((err)=>{
-      toast.error('Unable to Create Account', {
+      toast.error(errorMapping[err.code] || 'Some error occurred', {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,

@@ -36,7 +36,6 @@ body{
   overflow: hidden;
 }
 
-
 .words{
   font-size: 32px;
   display: flex;
@@ -118,7 +117,6 @@ ${({theme})=>theme.background}}
   margin-right: auto;
 
 }
-
 
 .stats-box{
   display: flex;

@@ -1,5 +1,8 @@
 import React from 'react'
 import Graph from './Graph'
+import { auth, db } from '../firebaseConfig';
+import { Bounce, toast } from 'react-toastify';
+import { useEffect } from 'react';
 const Stats = ({
   wpm,
   accuracy,
@@ -18,6 +21,60 @@ const Stats = ({
       return i;
     }
   });
+  const pushDataToDB = () =>{
+    const resultsRef = db.collection('Results');
+    const {uid} = auth.currentUser;
+    resultsRef.add({
+      wpm: wpm,
+      accuracy: accuracy,
+      timeStamp: new Date(),
+      characters: `${correctChars}/${incorrectChars}/${missedChars}/${extraChars}`,
+      userId: uid
+    }).then((res)=>{
+      toast.success('Data saved to DB', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce
+        });
+    }).catch((err)=>{
+      toast.error('Not able to save result', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce
+        });
+    })
+  }
+  
+  useEffect(()=>{
+    if(auth.currentUser){
+      pushDataToDB();
+    }
+    else{
+      toast.warning('Log in to save results', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce
+        });
+    }
+  },[])
 
   return (
     <div className = 'stats-box'>
