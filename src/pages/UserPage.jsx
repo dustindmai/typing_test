@@ -8,6 +8,7 @@ import { CircularProgress } from '@mui/material';
 import TableUserData from '../components/TableUserData';
 import Graph from '../components/Graph';
 import UserInfo from '../components/UserInfo';
+import Header from '../components/Header';
 
 const UserPage = () => {
   const [data, setData] = useState([]);
@@ -49,6 +50,7 @@ const UserPage = () => {
 
   return (
     <div className="canvas">
+      <Header/>
       <UserInfo totalTestsTaken={data.length}/>
       <div className="graph-user-page">
         <Graph graphData = {graphData} type = 'date'/>

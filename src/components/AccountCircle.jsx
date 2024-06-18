@@ -11,7 +11,7 @@ import errorMapping from '../utils/errorMapping';
 import { auth } from '../firebaseConfig';
 import LogoutIcon from '@mui/icons-material/Logout'
 import {useAuthState} from 'react-firebase-hooks/auth'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 const AccountCircle = () => {
 
   const [open, setOpen] = useState(false);
@@ -20,7 +20,11 @@ const AccountCircle = () => {
 
   const [user]= useAuthState(auth);
   const navigate = useNavigate();
+  const location = useLocation();
   const logout = () =>{
+    if(location.pathname ==='/user'){
+      navigate('/');
+    }
     auth.signOut().then((res)=>{
       toast.success('Logged out', {
         position: "top-right",
