@@ -9,6 +9,7 @@ import TableUserData from '../components/TableUserData';
 import Graph from '../components/Graph';
 import UserInfo from '../components/UserInfo';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const UserPage = () => {
   const [data, setData] = useState([]);
@@ -57,6 +58,7 @@ const UserPage = () => {
       </div>
       
       <TableUserData data={data}/>
+      <Footer/>
     </div>
   )
 }

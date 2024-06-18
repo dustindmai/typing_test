@@ -65,8 +65,7 @@ body{
 }
 
 .time-mode:hover{
-  color: green;
-
+  color: ${({theme})=> theme.typeBoxText};
 }
 
 .hidden-input{
@@ -192,9 +191,14 @@ ${({theme})=>theme.background}}
   justify-content:center;
 }
 
-.table, .graph-user-page{
+.table{
   margin:auto;
   width:1000px;
+}
+
+.graph-user-page{
+  margin:auto;
+  width: 750px;
 }
 
 .center-of-screen{
